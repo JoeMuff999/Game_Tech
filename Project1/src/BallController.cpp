@@ -25,13 +25,25 @@ void BallController::_init() {
 }
 
 
-void BallController::on_collision(Variant area){
+void BallController::on_collision(Variant variant){
 
     // if(time_passed - begin_time < collision_cooldown)
     //     return;
-    String name = Object::cast_to<Area>(area)->get_name();
+    Area area = *(Object::cast_to<Area>(variant));
+    String name = area.get_name();
+    Vector3 normal;
     Node collided_with = *(get_parent()->get_node(name));
-    Vector3 normal = collided_with.get("normal");
+    if(area.get_collision_layer() == WALL_LAYER)
+    {
+        normal = collided_with.get("normal");
+    }
+    else if(area.get_collision_layer() == BALL_LAYER){
+        normal = (area.get_translation() - get_translation()).normalized();
+    }
+    else{
+        Godot::print("invalid collision " + name);
+    }
+
     Vector3 rhs = (2 * normal * normal.dot(velocity));
     // Godot::print(rhs);
 

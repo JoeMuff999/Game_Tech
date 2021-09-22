@@ -5,6 +5,10 @@
 #include <Spatial.hpp>
 #include <Area.hpp>
 
+#define WALL_LAYER 0b10
+#define BALL_LAYER 0b1
+
+
 namespace godot
 {
 
